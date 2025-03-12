@@ -1,20 +1,12 @@
 {
     "name": "pichau/biblioteca",
-    "description": "API para gerenciamento de livros",
-    "type": "project",
-    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Pichau\\Biblioteca\\": "src/"
         }
     },
-    "authors": [
-        {
-            "name": "Erick"
-        }
-    ],
-    "minimum-stability": "stable",
     "require": {
-        "php": "^7.4|^8.0"
+        "php": ">=7.4"
     }
 }
+
