@@ -1,7 +1,11 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /biblioteca/
+
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php/$1 [L]
+
+    # Se o arquivo ou diretório não existe, redireciona para index.php
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 </IfModule>
+

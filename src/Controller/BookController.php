@@ -13,9 +13,14 @@ class BookController {
     private $pdo;
 
     public function __construct() {
-        $this->pdo = Database::connect();
+        try {
+            $this->pdo = Database::connect();
+        } catch (\Exception $e) {
+            // Lidar com o erro de conexão aqui
+            echo "Erro ao conectar com o banco de dados: " . $e->getMessage();
+            die(); // Ou log o erro e tomar outra ação apropriada
+        }
     }
-
     public function listBooks() {
         $stmt = $this->pdo->query("SELECT * FROM livros");
         $books = [];
