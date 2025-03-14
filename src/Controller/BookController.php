@@ -16,7 +16,7 @@ class BookController {
 
     // GET: Lista todos os livros
     public function listBooks() {
-        $stmt = $this->pdo->query("SELECT * FROM books");
+        $stmt = $this->pdo->query("SELECT * FROM livros");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
