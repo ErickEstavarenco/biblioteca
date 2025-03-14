@@ -7,66 +7,36 @@ use Pichau\Biblioteca\Model\Book;
 use PDO;
 
 class BookController {
+
     private $pdo;
 
     public function __construct() {
-        try {
-            $this->pdo = Database::connect();
-        } catch (\Exception $e) {
-            // Lidar com o erro de conexão aqui
-            echo "Erro ao conectar com o banco de dados: " . $e->getMessage();
-            die(); // Ou log o erro e tomar outra ação apropriada
-        }
+        $this->pdo = Database::connect();
     }
 
+    // GET: Lista todos os livros
     public function listBooks() {
-        $stmt = $this->pdo->query("SELECT * FROM livros");
-        $books = [];
-        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $data) {
-            $book = new Book(
-                $data['id'],
-                $data['titulo'],
-                $data['autor'],
-                $data['isbn'],
-                $data['ano_publicacao']
-            );
-            $books[] = $book->toArray();
-        }
-        return $books;
+        $stmt = $this->pdo->query("SELECT * FROM books");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getBookById($id) {
-        $stmt = $this->pdo->prepare("SELECT * FROM livros WHERE id = ?");
-        $stmt->execute([$id]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($data) {
-            $book = new Book(
-                $data['id'],
-                $data['titulo'],
-                $data['autor'],
-                $data['isbn'],
-                $data['ano_publicacao']
-            );
-            return $book->toArray();
-        }
-        return null;
-    }
-
+    // POST: Cria um novo livro
     public function createBook($data) {
-        $stmt = $this->pdo->prepare("INSERT INTO livros (titulo, autor, isbn, ano_publicacao) VALUES (?, ?, ?, ?)");
+        $stmt = $this->pdo->prepare("INSERT INTO books (titulo, autor, isbn, ano_publicacao) VALUES (?, ?, ?, ?)");
         $stmt->execute([$data['titulo'], $data['autor'], $data['isbn'], $data['ano_publicacao']]);
         return $this->pdo->lastInsertId();
     }
 
-    public function updateBook($id, $data) {
-        $stmt = $this->pdo->prepare("UPDATE livros SET titulo = ?, autor = ?, isbn = ?, ano_publicacao = ? WHERE id = ?");
-        $stmt->execute([$data['titulo'], $data['autor'], $data['isbn'], $data['ano_publicacao'], $id]);
-        return $stmt->rowCount();
+    // PUT: Atualiza um livro existente
+    public function updateBook($data) {
+        $stmt = $this->pdo->prepare("UPDATE books SET titulo = ?, autor = ?, isbn = ?, ano_publicacao = ? WHERE id = ?");
+        return $stmt->execute([$data['titulo'], $data['autor'], $data['isbn'], $data['ano_publicacao'], $data['id']]);
     }
 
+    // DELETE: Exclui um livro pelo ID
     public function deleteBook($id) {
-        $stmt = $this->pdo->prepare("DELETE FROM livros WHERE id = ?");
-        $stmt->execute([$id]);
-        return $stmt->rowCount();
+        $stmt = $this->pdo->prepare("DELETE FROM books WHERE id = ?");
+        return $stmt->execute([$id]);
     }
 }
+
