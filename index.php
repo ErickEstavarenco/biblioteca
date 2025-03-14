@@ -49,3 +49,4 @@ try {
     echo json_encode(['error' => 'Erro geral: ' . $e->getMessage()]);
 }
 
+
