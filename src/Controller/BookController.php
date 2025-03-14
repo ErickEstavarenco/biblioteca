@@ -2,11 +2,14 @@
 
 namespace Pichau\Biblioteca\Controller;
 
+require_once __DIR__ . '/../../vendor/autoload.php';
+
 use Pichau\Biblioteca\Database;
 use Pichau\Biblioteca\Model\Book;
 use PDO;
 
 class BookController {
+
     private $pdo;
 
     public function __construct() {

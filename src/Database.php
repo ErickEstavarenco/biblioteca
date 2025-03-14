@@ -3,25 +3,29 @@
 namespace Pichau\Biblioteca;
 
 use PDO;
-use PDOException;
 
 class Database {
+    private static $instance = null;
     private static $pdo;
 
-    public static function connect() {
-        if (!isset(self::$pdo)) {
-            try {
-                $host = 'localhost';
-                $dbname = 'biblioteca';
-                $username = 'root';
-                $password = '';
+    private function __construct() {
+        // Configurações do banco de dados
+        $host = 'localhost';
+        $dbname = 'biblioteca';
+        $user = 'seu_usuario';
+        $pass = 'sua_senha';
 
-                self::$pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-                self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $e) {
-                echo "Erro de conexão com o banco de dados: " . $e->getMessage();
-                die();
-            }
+        try {
+            self::$pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
+            self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (\PDOException $e) {
+            throw new \Exception("Erro ao conectar com o banco de dados: " . $e->getMessage());
+        }
+    }
+
+    public static function connect(): PDO {
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
         return self::$pdo;
     }
