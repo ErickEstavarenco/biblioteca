@@ -13,8 +13,8 @@ class Database {
         // Configurações do banco de dados
         $host = 'localhost';
         $dbname = 'biblioteca';
-        $user = 'seu_usuario';
-        $pass = 'sua_senha';
+        $user = 'root'; // Substitua pelo seu usuário
+        $pass = ''; // Substitua pela sua senha
 
         try {
             self::$pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
@@ -41,4 +41,6 @@ class Database {
         throw new \Exception("Não é possível desserializar a classe Database.");
     }
 }
+
+
 

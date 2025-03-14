@@ -3,13 +3,13 @@
 namespace Pichau\Biblioteca\Model;
 
 class Book {
-    public $id;
-    public $titulo;
-    public $autor;
-    public $isbn;
-    public $ano_publicacao;
+    private $id;
+    private $titulo;
+    private $autor;
+    private $isbn;
+    private $ano_publicacao;
 
-    public function __construct($id = null, $titulo, $autor, $isbn, $ano_publicacao) {
+    public function __construct($id, $titulo, $autor, $isbn, $ano_publicacao) {
         $this->id = $id;
         $this->titulo = $titulo;
         $this->autor = $autor;
@@ -27,6 +27,7 @@ class Book {
         ];
     }
 }
+
 
 
 

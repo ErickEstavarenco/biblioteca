@@ -9,7 +9,6 @@ use Pichau\Biblioteca\Model\Book;
 use PDO;
 
 class BookController {
-
     private $pdo;
 
     public function __construct() {
@@ -21,6 +20,7 @@ class BookController {
             die(); // Ou log o erro e tomar outra ação apropriada
         }
     }
+
     public function listBooks() {
         $stmt = $this->pdo->query("SELECT * FROM livros");
         $books = [];
@@ -72,3 +72,4 @@ class BookController {
         return $stmt->rowCount();
     }
 }
+
